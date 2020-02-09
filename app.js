@@ -3,31 +3,135 @@ var express = require('express');
 var path = require('path');
 var indexRouter = require('./routes/index');
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+const Command = require('./command.js');
+const Definition = require('./commands/defn.js');
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+/*if (process.argv.length == 2) {
+  console.log('Getting word of the day...');
+  wordnikApi.wordOfTheDay();
+}*/
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+//for(;;){
+  var myArgs = process.argv;
+  console.log('myArgs: ', myArgs);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+  newArr=[myArgs[2],myArgs[3]] ;
+  console.log(newArr + newArr.length);
+  switch (myArgs[2]) {
+  case 'defn':
+      console.log(myArgs[3], 'smells quite badly.');
+      Command.runCommand(new Definition(newArr));
+      break;
+  case 'syn':
+    console.log(myArgs[1], 'smells quite badly.');
 
+    break;
+  case 'ant':
+    console.log(myArgs[1], 'smells quite badly.');
+
+    break; 
+  case 'ex':
+    console.log(myArgs[1], 'smells quite badly.');
+
+    break; 
+  case 'dict':
+      console.log(myArgs[1], 'is really cool.');
+      break;
+  case 'play':
+    console.log(myArgs[1], 'smells quite badly.');
+
+    break;
+  default:
+      console.log('Sorry, that is not something I know how to do.');
+  }
+//}
+/*
+program.arguments('command', 'word').action(async(command, word) => {
+  switch (command) {
+      case "def":
+          {
+              if (word && typeof word == 'string') {
+                  console.log('\nGetting "Definition" of the word: "%s" \n', word);
+                  wordnikApi.getDefinition(word);
+              } else {
+                  console.log('Please enter valid word \n');
+              }
+              break;
+          }
+      case "syn":
+          {
+              if (word && typeof word == 'string') {
+                  console.log('\nGetting "Synonyms" of the word: "%s" \n', word);
+                  wordnikApi.getSynonym(word);
+              } else {
+                  console.log('Please enter valid word \n');
+              }
+              break;
+          }
+      case "ant":
+          {
+              if (word && typeof word == 'string') {
+                  console.log('\nGetting "Antonyms" of the word: "%s" \n', word);
+                  wordnikApi.getAntonym(word);
+              } else {
+                  console.log('Please enter valid word \n');
+              }
+              break;
+          }
+      case "ex":
+          {
+              if (word && typeof word == 'string') {
+                  console.log('\nGetting "Example" of the word: "%s" \n', word);
+                  wordnikApi.getExample(word);
+              } else {
+                  console.log('Please enter valid word \n');
+              }
+              break;
+          }
+      case "dict":
+          {
+              if (word && typeof word == 'string') {
+                  console.log('\nGetting "Details" of the word: "%s" \n', word);
+                  wordnikApi.getDefinition(word)
+                  wordnikApi.getSynonym(word)
+                  wordnikApi.getAntonym(word)
+                  wordnikApi.getExample(word)
+              } else {
+                  console.log('Please enter valid word \n');
+              }
+              break;
+          }
+      case "play":
+          {
+              if (word && typeof word == 'string') {
+                  console.log('\nPreparing the ground for a game \n');
+                  wordnikApi.startGame(word);
+              } else {
+                  console.log('Please enter valid word \n');
+              }
+              break;
+          }
+      default:
+          {
+              if (typeof word == 'object')
+                  var word = command;
+              if (word && typeof word == 'string') {
+                  console.log('\nGetting "Details" of the word : "%s". \n', word);
+                  wordnikApi.getDefinition(word);
+                  wordnikApi.getSynonym(word);
+                  wordnikApi.getAntonym(word);
+                  wordnikApi.getExample(word);
+              } else {
+                  console.log('Please enter valid word \n');
+              }
+              break;
+          }
+  }
+}).parse(process.argv);
+
+
+*/
 module.exports = app;
