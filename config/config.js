@@ -5,7 +5,7 @@ let configBuffer = null;
 // Init config_buffer according to the NODE_ENV
 switch (NODE_ENV) {
     case 'production':
-        configBuffer = fs.readFileSync( 'files/production.json');
+        configBuffer = fs.readFileSync('files/production.json');
         break;
     case 'development':
         configBuffer = fs.readFileSync('files/development.json');

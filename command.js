@@ -1,9 +1,12 @@
 class Command {
-    constructor(input){
+    constructor(input) {
         this.input = input;
     }
-    runCommand(command){
-        return command.run();
+
+    RunCommand(command) {
+        console.log("input commands", command);
+        return command.run(this.input);
     }
 }
+
 module.exports = Command;
