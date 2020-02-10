@@ -1,19 +1,17 @@
 const Command = require('../command.js');
 const config = require('../config/config');
 const request = require('request');
+const constant = require('../constant/constant');
 
-class Antonym extends Command {
-    constructor(input) {
-        super();
-        this.input = input;
+
+class Antonym  {
+    constructor() {
         this.commandName = "";
         this.word = "";
     }
 
     isValidCommand(commandName) {
-        if (commandName == 'ant')
-            return true;
-        return false;
+        return commandName == constant.commandAntonym;
     }
 
     execute() {
@@ -21,13 +19,12 @@ class Antonym extends Command {
             if (error)
                 console.warn('Oops! Something went wrong!!!\n Error :', error);
             if (response && response.statusCode == 200) {
-                console.log("response is: " + response);
                 let defArray = JSON.parse(body);
                 if (defArray && Array.isArray(defArray) && defArray.length > 0) {
                     let def = "";
                     defArray.forEach((obj) => {
-                        if(obj.relationshipType == "antonym")
-                        def += obj.words + "\n";
+                        if (obj.relationshipType == constant.antonym)
+                            def += obj.words + "\n";
                     });
                     console.log('\nAntonym:', def);
                 } else {
@@ -42,17 +39,15 @@ class Antonym extends Command {
     parse(input) {
         this.word = input[1];
         this.commandName = input[0];
-        console.log(this.word + "....." + this.commandName);
     }
 
     run(input) {
-        console.log("command   ", input);
         this.parse(input);
         if (!this.isValidCommand(this.commandName)) {
             console.log("Please enter a valid command" + "(Suggestion: ant <word>)");
             return;
         }
-        this.execute(this.word);
+        this.execute();
     }
 }
 
